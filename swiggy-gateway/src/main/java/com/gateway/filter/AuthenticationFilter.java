@@ -1,6 +1,7 @@
 package com.gateway.filter;
 
 import com.gateway.util.JwtUtil;
+import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
@@ -42,8 +43,8 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
                     jwtUtil.validateToken(authHeader);
 
                 } catch (Exception e) {
-                    System.out.println("invalid access...!");
-                    throw new RuntimeException("un authorized access to application");
+                    System.out.println("invalid token or it has been expired...!");
+                    throw new RuntimeException("invalid token or it has been expired...!");
                 }
             }
             return chain.filter(exchange);
